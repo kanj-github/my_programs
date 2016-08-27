@@ -1,0 +1,5 @@
+cl -c /I"C:\Program Files (x86)\Java\jdk1.7.0\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include" /I"C:\Program Files (x86)\Java\jdk1.7.0\include\win32" HelloWorld.c
+
+link -LIBPATH:"C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib" -LIBPATH:"C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib" HelloWorld.obj /dll
+
+http://permadi.com/blog/2011/09/creating-your-first-android-jnindk-project-in-eclipse-with-sequoyah/
