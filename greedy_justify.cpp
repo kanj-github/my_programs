@@ -6,6 +6,9 @@ using namespace std;
 
 vector<string> fullJustify(vector<string> &A, int B) {
     vector<string> ret;
+    if (A.size() == 0) {
+      return ret;
+    }
     int i = 0; // index of string in A which has to go in the next line
     while(true) {
         int words = 0;
@@ -62,30 +65,31 @@ vector<string> fullJustify(vector<string> &A, int B) {
 
 int main (int argc, char ** argv) {
     vector<string> text;
-    text.push_back("am");
-    text.push_back("fasgoprn");
-    text.push_back("lvqsrjylg");
-    text.push_back("rzuslwan");
-    text.push_back("xlaui");
-    text.push_back("tnzegzuzn");
-    text.push_back("kuiwdc");
-    text.push_back("fofjkkkm");
-    text.push_back("ssqjig");
-    text.push_back("tcmejefj");
-    text.push_back("uixgzm");
-    text.push_back("lyuxeaxsg");
-    text.push_back("iqiyip");
-    text.push_back("msv");
-    text.push_back("uurcazjc");
-    text.push_back("earsrvrq");
-    text.push_back("qlq");
-    text.push_back("lxrtzkjpg");
-    text.push_back("jkxymjus");
-    text.push_back("mvornwza");
-    text.push_back("zty");
-    text.push_back("q");
-    text.push_back("nsecqphjy");
-    vector<string> justified = fullJustify(text, 14);
+    // text.push_back("am");
+    // text.push_back("fasgoprn");
+    // text.push_back("lvqsrjylg");
+    // text.push_back("rzuslwan");
+    // text.push_back("xlaui");
+    // text.push_back("tnzegzuzn");
+    // text.push_back("kuiwdc");
+    // text.push_back("fofjkkkm");
+    // text.push_back("ssqjig");
+    // text.push_back("tcmejefj");
+    // text.push_back("uixgzm");
+    // text.push_back("lyuxeaxsg");
+    // text.push_back("iqiyip");
+    // text.push_back("msv");
+    // text.push_back("uurcazjc");
+    // text.push_back("earsrvrq");
+    // text.push_back("qlq");
+    // text.push_back("lxrtzkjpg");
+    // text.push_back("jkxymjus");
+    // text.push_back("mvornwza");
+    // text.push_back("zty");
+    // text.push_back("q");
+    // text.push_back("nsecqphjy");
+    //text.push_back("");
+    vector<string> justified = fullJustify(text, 10);
     for (string s:justified) {
         cout<<s<<"\n";
     }
