@@ -70,9 +70,9 @@ if (type == SCREEN_TYPE && screen != "") {
 }'
 
 if [[ $# -eq 0 ]]; then
-	adb logcat | grep --line-buffered GAv4 | awk "BEGIN { $INIT_AWK } { $PRINT_WITH_UUIDS }"
+	adb logcat -s GAv4 | awk "BEGIN { $INIT_AWK } { $PRINT_WITH_UUIDS }"
 elif [[ $# -eq 1 && $1 == "--no-uuid" ]]; then
-	adb logcat | grep --line-buffered GAv4 | awk "BEGIN { $INIT_AWK } { $PRINT_WITHOUT_UUIDS }"
+	adb logcat -s GAv4 | awk "BEGIN { $INIT_AWK } { $PRINT_WITHOUT_UUIDS }"
 else
 	echo "Usage: Run without any arguments or --no-uuid to remove UUIDs from event labels"
 fi
