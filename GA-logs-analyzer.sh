@@ -11,7 +11,7 @@ ACTION_PREFIX="ea="
 LABEL_PREFIX="el="
 SCREEN_TYPE="screenview"'
 
-PRINT_WITH_UUIDS='
+COMMON_LOGIC_PART_1='
 type="";
 category="";
 action="";
@@ -25,49 +25,34 @@ for (i = 1; i <= NF; i++) {
 	} else if (index($i, ACTION_PREFIX) == 1) {
 		action=substr($i, 4);
 	} else if (index($i, LABEL_PREFIX) == 1) {
-		label=substr($i, 4);
+'
+
+COMMON_LOGIC_PART_2='
 	} else if (index($i, SCREEN_PREFIX) == 1) {
 		screen=substr($i, 4);
 	}
 }
 
 if (type == SCREEN_TYPE && screen != "") {
-	printf("Screenview - %s\n", screen);
-} else if (category != "" && action != "" && label != "") {
-	printf("Event -  Category= %s, Action= %s, Label= %s\n", category, action, label);
+	printf("Screenview - \033[34m%s\033[0m\n", screen);
+} else if (category != "" && action != "") {
+	printf("Event -  Category= \033[1m\033[30m%s\033[0m, Action= \033[1m\033[30m%s\033[0m, \033[32m Label=\033[0m %s\n", category, action, label);
 } else {
 	#printf("Found nothing %s %s %s %s %s\n%s", type, screen, category, action, label, $0);
 }'
 
-PRINT_WITHOUT_UUIDS='
-type="";
-category="";
-action="";
-label="";
-screen="";
-for (i = 1; i <= NF; i++) {
-	if (index($i, TYPE_PREFIX) == 1) {
-		type=substr($i, 3);
-	} else if (index($i, CATEGORY_PREFIX) == 1) {
-		category=substr($i, 4);
-	} else if (index($i, ACTION_PREFIX) == 1) {
-		action=substr($i, 4);
-	} else if (index($i, LABEL_PREFIX) == 1) {
+LABEL_LOGIC_WITH_UUID='
+		label=substr($i, 4);
+'
+
+LABEL_LOGIC_WITHOUT_UUID='
 		firstPipe=index($i, "|");
 		lastUuid=index($i, "|UId:")
 		label=substr($i, firstPipe + 1, lastUuid - firstPipe - 1)
-	} else if (index($i, SCREEN_PREFIX) == 1) {
-		screen=substr($i, 4);
-	}
-}
+'
 
-if (type == SCREEN_TYPE && screen != "") {
-	printf("Screenview - %s\n", screen);
-} else if (category != "" && action != "") {
-	printf("Event -  Category= %s, Action= %s, Label= %s\n", category, action, label);
-} else {
-	#printf("Found nothing %s %s %s %s %s\n%s", type, screen, category, action, label, $0);
-}'
+PRINT_WITH_UUIDS=$COMMON_LOGIC_PART_1$LABEL_LOGIC_WITH_UUID$COMMON_LOGIC_PART_2
+PRINT_WITHOUT_UUIDS=$COMMON_LOGIC_PART_1$LABEL_LOGIC_WITHOUT_UUID$COMMON_LOGIC_PART_2
 
 if [[ $# -eq 0 ]]; then
 	adb logcat -s GAv4 | awk "BEGIN { $INIT_AWK } { $PRINT_WITH_UUIDS }"
