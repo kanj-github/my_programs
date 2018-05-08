@@ -10,10 +10,10 @@ int main(int argc, char **argv) {
         cin>>array[i];
     }
 
-    int max, curr, start, end;
+    int max, curr, start, end, max_start, max_end;
     max = curr = array[0];
-    end = start = 0;
-    
+    max_start = max_end = end = start = 0;
+
     for (int j=1; j<len; j++) {
         if (array[j] > curr + array[j]) {
             start = j;
@@ -24,11 +24,13 @@ int main(int argc, char **argv) {
 
         if (curr > max) {
             max = curr;
+            max_start = start;
+            max_end = j;
             end = j;
         }
     }
 
-    for (int i = start; i<=end; i++) {
+    for (int i = max_start; i<=max_end; i++) {
         cout<<array[i]<<" ";
     }
     cout<<"\n";
