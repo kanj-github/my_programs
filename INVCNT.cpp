@@ -18,23 +18,20 @@ struct node {
   }
 };
 
-int get_invert_count(vector<int> arr) {
-  int count = 0;
+long get_invert_count(vector<int> arr) {
+  long count = 0;
   node root = node(arr[0]);
   for (int i = 1; i<arr.size(); i++) {
     node * curr = &root;
     node * element = new node(arr[i]);
 
     while (arr[i] > curr-> val) {
-      //cout<<"for "<<arr[i]<<" -> "<<curr->val;
       curr->right_pop++;
       if (curr->r != NULL) {
         curr = curr -> r;
-        //cout<<" right is "<<curr->val<<"\n";
       } else {
         curr->r = element;
         curr = NULL; // To mark that this element didn't cause any inversions
-        //cout<<"\tNo inversion for "<<arr[i]<<"\n";
         break;
       }
     }
@@ -71,7 +68,6 @@ int get_invert_count(vector<int> arr) {
         }
       }
     }
-    //cout<<arr[i]<<" "<<count<<"\n";
   }
 
   return count;
