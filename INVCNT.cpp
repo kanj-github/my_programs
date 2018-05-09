@@ -1,50 +1,80 @@
 #include <iostream>
 #include <vector>
-#include <stack>
 
 using namespace std;
 
-vector<int> get_indexes_of_next_smaller(vector<int> arr) {
-  vector<int> next_smallers(arr.size());
-  stack<int> stk;
-  for (int i=0; i<arr.size(); i++) {
-    if (stk.empty()) {
-      stk.push(i);
-    } else {
-      if (arr[i] >= arr[stk.top()]) {
-        stk.push(i);
+// Try to solve http://www.spoj.com/problems/INVCNT/
+
+// Make a binary tree such that l->val < n.val < r->val.
+struct node {
+  int val;
+  int right_pop; // Population under right side of this node. Number of nodes that have larger value than this.
+  node * l;
+  node * r;
+
+  node(int v) : val(v) {
+    right_pop = 0;
+    l = r = NULL;
+  }
+};
+
+int get_invert_count(vector<int> arr) {
+  int count = 0;
+  node root = node(arr[0]);
+  for (int i = 1; i<arr.size(); i++) {
+    node * curr = &root;
+    node * element = new node(arr[i]);
+
+    while (arr[i] > curr-> val) {
+      //cout<<"for "<<arr[i]<<" -> "<<curr->val;
+      curr->right_pop++;
+      if (curr->r != NULL) {
+        curr = curr -> r;
+        //cout<<" right is "<<curr->val<<"\n";
       } else {
-        while (!stk.empty() && arr[stk.top()] > arr[i]) {
-          next_smallers[stk.top()] = i;
-          stk.pop();
-        }
-        stk.push(i);
+        curr->r = element;
+        curr = NULL; // To mark that this element didn't cause any inversions
+        //cout<<"\tNo inversion for "<<arr[i]<<"\n";
+        break;
       }
     }
-  }
 
-  while (!stk.empty()) {
-    next_smallers[stk.top()] = -1;
-    stk.pop();
-  }
+    if (curr != NULL) {
+      // This element is smaller than curr and all the curr's right population
+      count += (curr->right_pop + 1);
 
-  return next_smallers;
-}
-
-// Shit logic. Doesn't work
-int get_invert_count(vector<int> arr, vector<int> next) {
-  vector<int> count(arr.size());
-  count[arr.size() - 1] = 0;
-
-  int total = 0;
-  for (int i = arr.size()-2; i>=0; i--) {
-    if (next[i] != -1) {
-      count[i] = count[next[i]] + 1;
-      total += count[next[i]] + 1;
+      // Find a place for this element now and check for more inversion down the left branch
+      if (curr -> l == NULL) {
+        // Left branch is empty
+        curr -> l = element;
+      } else {
+        // Find a place in the left branch
+        curr = curr -> l;
+        while (curr != NULL) { // Might even use while(true)
+          if (curr->val > arr[i]) {
+            count += (curr->right_pop + 1);
+            if (curr->l == NULL) {
+              curr -> l = element;
+              break;
+            } else {
+              curr = curr -> l;
+            }
+          } else {
+            curr->right_pop++;
+            if (curr -> r == NULL) {
+              curr -> r = element;
+              break;
+            } else {
+              curr = curr -> r;
+            }
+          }
+        }
+      }
     }
+    //cout<<arr[i]<<" "<<count<<"\n";
   }
 
-  return total;
+  return count;
 }
 
 int main() {
@@ -57,8 +87,7 @@ int main() {
 			cin>>array[i];
 		}
 
-		vector<int> nexts = get_indexes_of_next_smaller(array);
-		cout<<get_invert_count(array, nexts)<<"\n";
+		cout<<get_invert_count(array)<<"\n";
 
 		tests--;
 	}
