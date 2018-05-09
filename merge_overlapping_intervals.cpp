@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// https://www.interviewbit.com/problems/merge-overlapping-intervals/
+
 struct Interval {
     int start;
     int end;
@@ -88,4 +90,5 @@ struct Interval {
  	for (const auto& i : merged) {
  		cout<<"("<<i.start<<", "<<i.end<<")\n";
  	}
+ 	return 0;
  }
