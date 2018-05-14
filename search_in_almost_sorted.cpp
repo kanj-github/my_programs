@@ -22,7 +22,9 @@ int log_n_get_0 (int * arr) {
 			end = i;
 		}
 	}
-	return end;
+
+	if (end - start == 1 && arr[start] < arr[end]) return start;
+	else return end;
 }
 
 int get_index (int i) {
@@ -38,8 +40,8 @@ int modified_binary_search (int * arr, int start, int end, int num) {
 	//cout<<"i = "<<i<<" & idx = "<<idx<<"\n";
 	if (arr[idx] == num) return idx;
 	else if (start == end) return -1;
-	else if (arr[idx] > num) modified_binary_search(arr, start, i-1, num);
-	else modified_binary_search(arr, i+1, end, num);
+	else if (arr[idx] > num) return modified_binary_search(arr, start, i-1, num);
+	else return modified_binary_search(arr, i+1, end, num);
 }
 
 int main () {
